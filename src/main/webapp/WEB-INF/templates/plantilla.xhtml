@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title><ui:insert name="title">Tools TFC</ui:insert></title>
+	<h:outputScript name="script.js" library="js" />
+	<h:outputScript name="calendar.js" library="js" />
+	<h:outputStylesheet name="estilos.css" library="css" />
+	<link rel="shortcut icon" type="image/x-icon"
+		href="resources/images/logo.ico" />
+</h:head>
+
+<body>
+
+	<ui:insert name="header">
+		<p:ajaxStatus onstart="PF('wdlgCargando').show()"
+			onsuccess="PF('wdlgCargando').hide()" />
+
+		<p:dialog widgetVar="wdlgCargando" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<p:graphicImage library="images" name="cargando.gif" />
+		</p:dialog>
+
+		<f:loadBundle basename="mensajes" var="msg" />
+	</ui:insert>
+	<p:layout fullPage="true">
+
+		<p:layoutUnit position="north" size="109" header="" resizable="true"
+			closable="false" collapsible="true">
+
+			<div align="right">
+				<p:clock pattern="h:mm:ss a dd/MM/yyyy" mode="server" />
+			</div>
+			<div style="float: left;">
+				<p:graphicImage library="images" name="logo.png" width="300px"
+					height="50px" />
+
+			</div>
+			<div align="center">
+				<h1 style="text-shadow: 2px 2px 5px #b8c8d4;">Tools TFC</h1>
+			</div>
+
+		</p:layoutUnit>
+
+		<p:layoutUnit position="south" size="117" resizable="false"
+			closable="false" collapsible="true">
+
+			<h:form>
+
+				<p:dock position="bottom">
+					<p:menuitem icon="/resources/images/home.png" value="Home"
+						action="index?faces-redirect=true" />
+					<p:menuitem icon="/resources/images/personal.png" value="Impresos"
+						action="Impresos?faces-redirect=true" />
+					<p:menuitem icon="/resources/images/angular_logo.png"
+						value="Crear Angular" action="crearAngular?faces-redirect=true" />
+					<p:menuitem icon="/resources/images/contrato.png"
+						value="Componentes"
+						action="reporteComponentes?faces-redirect=true" />
+					<p:menuitem icon="/resources/images/config.png" value="Xml a Json"
+						action="crearJson?faces-redirect=true" />
+					<p:menuitem icon="/resources/images/trans.png"
+						value="Transacciones"
+						action="transacciones?faces-redirect=true" />
+
+				</p:dock>
+
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="175" header="Menú"
+			resizable="false" closable="false" collapsible="true">
+
+			<h:form>
+				<p:menu>
+					<p:submenu label="Opciones">
+						<p:menuitem icon="ui-icon-home" value="Home"
+							action="index?faces-redirect=true" />
+
+						<p:menuitem icon="ui-icon-person" value="Impresos"
+							action="Impresos?faces-redirect=true" />
+						<p:menuitem icon=" ui-icon-plus" value="Crear Angular"
+							action="crearAngular?faces-redirect=true" />
+						<p:menuitem icon="ui-icon-document" value="Componentes"
+							action="reporteComponentes?faces-redirect=true" />
+						<p:menuitem icon="ui-icon-gear" value="Xml a Json"
+							action="crearJson?faces-redirect=true" />
+						<p:menuitem icon="ui-icon-gear" value="Transacciones"
+							action="transacciones?faces-redirect=true" />
+					</p:submenu>
+				</p:menu>
+
+			</h:form>
+
+		</p:layoutUnit>
+
+
+		<p:layoutUnit position="center">
+			<ui:insert name="content">
+
+			</ui:insert>
+		</p:layoutUnit>
+
+	</p:layout>
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+
+		<ui:define name="content">
+
+			<h2>Empleados</h2>
+
+			<p:messages id="msj" autoUpdate="true" showDetail="true"
+				globalOnly="true" />
+
+			<h:form id="frm" enctype="multipart/form-data">
+
+				<p:hotkey bind="alt+n" oncomplete="PF('wdlgPersona').show();" />
+				<p:hotkey bind="alt+a" actionListener="#{personaBean.operar()}"
+					update="msjDlg, pgPersona" />
+
+				<p:commandButton icon="ui-icon-plus" value="Nuevo"
+					oncomplete="PF('wdlgPersona').show();" widgetVar="wNuevo"
+					actionListener="#{personaBean.limpiarControllers()}"
+					update="dlgPersona" />
+
+				<p:dataTable id="dtPersonas" widgetVar="formatosTable"
+					emptyMessage="#{msg.mensaje_vacio}"
+					value="#{personaBean.lstPersonas}" var="per" rows="4"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="Página: ({currentPage}/{totalPages})"
+					rowsPerPageTemplate="4,8,12">
+
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter"
+								onkeyup="filterAdvanced('formatosTable', this);"
+								style="width:12%" placeholder="Ingrese una palabra" />
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column headerText="id" filterBy="#{per.idPersona}"
+						filterStyle="display:none">
+						<p:outputLabel value="#{per.idPersona}" />
+					</p:column>
+
+					<p:column headerText="Nombres" filterBy="#{per.nombres}"
+						filterStyle="display:none">
+						<p:outputLabel value="#{per.nombres}" />
+					</p:column>
+
+					<p:column headerText="Apellidos" filterBy="#{per.apellidos}"
+						filterStyle="display:none">
+						<p:outputLabel value="#{per.apellidos}" />
+					</p:column>
+
+					<p:column style="width: 30px">
+						<p:commandLink actionListener="#{personaBean.seleccionar(per)}"
+							process="@this" oncomplete="PF('wdlgPersona').show();"
+							update="frm:dlgPersona">
+							<p:graphicImage library="images" name="edit.png" width="37"
+								height="39" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+
+				<p:dialog id="dlgPersona" widgetVar="wdlgPersona"
+					header="#{personaBean.titulo}" closable="false"
+					closeOnEscape="true" resizable="false" draggable="true"
+					visible="#{facesContext.validationFailed}">
+
+					<p:messages id="msjDlg" />
+
+					<h:panelGrid id="pgPersona" columns="2">
+						<h:panelGrid columns="2">
+							<p:outputLabel for="txtNombres" value="Nombres" />
+							<p:inputText id="txtNombres"
+								value="#{personaBean.persona.nombres}" required="true"
+								requiredMessage="Debe ingresar nombres">
+							</p:inputText>
+
+							<p:outputLabel for="txtApellidos" value="Apellidos" />
+							<p:inputText id="txtApellidos"
+								value="#{personaBean.persona.apellidos}" required="true"
+								requiredMessage="Debe ingresar apellidos" />
+
+							<p:outputLabel for="calFecha" value="Fecha Nacimiento" />
+							<p:calendar id="calFecha"
+								value="#{personaBean.fechaSeleccionada}" locale="es"
+								required="true"
+								requiredMessage="Debe ingresar fecha de nacimiento"
+								pattern="dd/MM/yyyy" mask="99/99/9999" />
+
+							<p:outputLabel for="txtCorreo" value="Correo" />
+							<p:inputText id="txtCorreo" value="#{personaBean.persona.correo}"
+								required="true" requiredMessage="Debe ingresar el Correo" validatorMessage="Formato de correo invalido">
+								<f:validateRegex
+									pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							</p:inputText>
+
+							<p:outputLabel for="rdnSexo" value="Sexo" />
+							<p:selectOneRadio id="rdnSexo"
+								value="#{personaBean.persona.sexo}" required="true"
+								requiredMessage="Debe ingresar sexo">
+								<f:selectItem itemLabel="M" itemValue="M" />
+								<f:selectItem itemLabel="F" itemValue="F" />
+							</p:selectOneRadio>
+
+							<p:outputLabel value="Subir Foto" />
+							<p:fileUpload value="#{personaBean.foto}" mode="simple" />
+
+							<p:outputLabel value="Foto"
+								rendered="#{personaBean.persona.idPersona != 0}" />
+							<p:graphicImage value="/imagen/#{personaBean.persona.idPersona}"
+								width="120" height="120"
+								rendered="#{personaBean.persona.idPersona != 0}" />
+
+							<p:outputLabel for="txtDireccion" value="Dirección" />
+							<p:inputTextarea id="txtDireccion"
+								value="#{personaBean.persona.direccion}" required="true"
+								requiredMessage="Debe ingresar dirección" counter="txtContador"
+								maxlength="150" counterTemplate="{0} caracteres restantes."
+								autoResize="false" />
+
+							<h:column />
+							<h:outputText id="txtContador" />
+
+						</h:panelGrid>
+
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Número" />
+							<p:inputText value="#{personaBean.telefono.numero}" maxlength="9" />
+							<p:commandButton value="Agregar" global="false"
+								actionListener="#{personaBean.agregar()}" update="telefonos" />
+
+							<p:dataList id="telefonos" value="#{personaBean.lstTelefono}"
+								var="tel" rows="5" paginator="true" emptyMessage="Sin números">
+								<p:outputLabel value="#{tel.numero}" />
+
+								<p:commandLink value="Remover"
+									actionListener="#{personaBean.remover(tel)}" update="telefonos">
+									<p:confirm header="Confirmacion"
+										message="¿Desea remover el elemento?" icon="ui-icon-alert" />
+								</p:commandLink>
+
+							</p:dataList>
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<h:panelGroup layout="block" style="float: right">
+						<p:commandButton value="Aceptar" update="msjDlg, pgPersona"
+							actionListener="#{personaBean.operar()}" ajax="false"
+							action="empleados?faces-redirect=true" />
+						<p:commandButton value="Cancelar" immediate="true"
+							onclick="PF('wdlgPersona').hide();" />
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Si" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

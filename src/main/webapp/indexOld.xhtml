@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:outputScript name="script.js" library="js" />
+	<h:outputStylesheet name="estilos.css" library="css" />
+</h:head>
+<body>
+	<h:form>
+		<p:commandButton value="Nuevo" onclick="PF('wdlgPersona').show();" />
+		<p:commandButton action="#{personaBean.pruebaCDI()}"
+			value="Probar CDI" />
+		<p:dataTable widgetVar="tabla" value="#{personaBean.lstPersonas}"
+			styleClass="tablaSinCabecera" var="per" rows="10" paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="Página: ({currentPage}/{totalPages})"
+			rowsPerPageTemplate="5,10,15">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Buscar:" />
+					<p:inputText id="globalFilter"
+						onkeyup="filterAdvanced('tabla',this)" style="width: 150px"
+						placeholder="Ingrese una palabra" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column headerText="id" filterBy="#{per.idPersona}"
+				filterMatchMode="contains">
+				<p:outputLabel value="#{per.idPersona}" />
+			</p:column>
+
+			<p:column headerText="Nombres" filterBy="#{per.nombres}"
+				filterMatchMode="contains">
+				<p:outputLabel value="#{per.nombres}" />
+			</p:column>
+
+			<p:column headerText="Apellidos" filterBy="#{per.apellidos}"
+				filterMatchMode="contains">
+				<p:outputLabel value="#{per.apellidos}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<p:dialog id="dlgPersona" widgetVar="wdlgPersona" modal="true">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nombres" />
+				<p:inputText value="#{personaBean.persona.nombres}" />
+
+				<p:outputLabel value="Apellidos" />
+				<p:inputText value="#{personaBean.persona.apellidos}" />
+
+				<p:commandButton value="Registrar PostgreSQL"
+					actionListener="#{personaBean.pruebaCDI()}" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</body>
+</html>

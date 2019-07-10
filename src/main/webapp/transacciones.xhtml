@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+			<h:form>
+
+				<p:growl id="msgs" showDetail="true" />
+
+				<p:panel header="Analisis de API" style="margin-bottom:10px;">
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<p:outputLabel value="Aplicación: " />
+
+						<p:selectOneMenu id="app" value="#{transaccionesBean.app}"
+							style="width:150px">
+							<p:ajax listener="#{transaccionesBean.onAppChange}"
+								update="transac" />
+							<f:selectItem itemLabel="Seleccione Clasificación" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{transaccionesBean.aplicacione}" />
+						</p:selectOneMenu>
+
+
+						<p:outputLabel for="clasif" value="Clasificación: " />
+						<p:selectOneMenu id="clasif" value="#{transaccionesBean.clasif}"
+							style="width:150px">
+							<p:ajax listener="#{transaccionesBean.onClasifChange}"
+								update="transac" />
+							<f:selectItem itemLabel="Seleccione Clasificación" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{transaccionesBean.clasifnes}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="transac" value="Transacción:" />
+
+						<p:selectCheckboxMenu id="transac"
+							value="#{transaccionesBean.selectedTransaccion}"
+							label="Seleccione Transaccion" filter="true"
+							filterMatchMode="startsWith" panelStyle="width:250px">
+
+							<f:selectItems value="#{transaccionesBean.transacciones}" />
+
+						</p:selectCheckboxMenu>
+
+
+					</h:panelGrid>
+
+					<p:separator />
+
+					<p:commandButton value="Submit" update="msgs"
+						action="#{transaccionesBean.displayLocation}" icon="pi pi-check"
+						style="display: none" />
+
+
+					<p:commandButton value="Submit" update="displayItems"
+						oncomplete="PF('itemDialog').show()" style="margin-top:10px;" />
+
+					<p:dialog header="Resultado" modal="true" showEffect="fade"
+						hideEffect="fade" widgetVar="itemDialog" width="500">
+						<p:outputPanel id="displayItems">
+							<p:dataList value="#{transaccionesBean.selectedTransaccion}"
+								var="transac" emptyMessage="No hay transacciones seleccionadas"
+								style="margin-bottom: 10px;">
+								<f:facet name="header">
+				                    Transacciones Seleccionada
+				                </f:facet>
+				                #{transac}
+
+				            </p:dataList>
+
+							<p:dataList value="#{transaccionesBean.salida}" var="car"
+								emptyMessage="No hay salida">
+								<f:facet name="header">
+				                    Atributos Comunes
+				                </f:facet>
+				                #{car}
+				            </p:dataList>
+
+							<p:dataList value="#{transaccionesBean.out}" var="car"
+								emptyMessage="No hay salida">
+								<f:facet name="header">
+				                    Atributos No Comunes
+				                </f:facet>
+				                #{car}
+				            </p:dataList>
+
+
+
+						</p:outputPanel>
+					</p:dialog>
+
+				</p:panel>
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

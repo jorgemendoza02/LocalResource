@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="/WEB-INF/templates/plantilla.xhtml">
+		<ui:define name="content">
+
+			<h2>Puestos</h2>
+
+			<h:form id="frm">
+				<p:commandButton value="Nuevo"
+					action="puestoForm?faces-redirect=true" />
+
+				<p:dataTable id="dtPersonas" widgetVar="formatosTable"
+					emptyMessage="#{msg.mensaje_vacio}"
+					value="#{puestoBean.lstPuestos}" var="p" rows="4" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="Página: ({currentPage}/{totalPages})"
+					rowsPerPageTemplate="4,8,12">
+
+					<p:column headerText="id" style="width: 30px">
+						<p:outputLabel value="#{p.idPuesto}" />
+					</p:column>
+
+					<p:column headerText="Nombre">
+						<p:outputLabel value="#{p.nombre}" />
+					</p:column>
+
+					<p:column headerText="Salario Base">
+						<p:outputLabel value="#{p.salarioBase}">
+							<f:convertNumber currencySymbol="$" maxFractionDigits="2"
+								maxIntegerDigits="4" type="currency" />
+						</p:outputLabel>
+					</p:column>
+
+					<p:column style="width: 30px">
+						<p:commandLink actionListener="#{puestoBean.seleccionar(p)}"
+							action="puestoForm">
+							<p:graphicImage library="images" name="edit.png" width="37"
+								height="39" />
+						</p:commandLink>
+					</p:column>
+
+				</p:dataTable>
+
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+	<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+		<f:facet name="default">
+			<h:outputText value="Status: StandBy" />
+		</f:facet>
+
+		<f:facet name="start">
+			<h:outputText value="Status: Start" />
+		</f:facet>
+
+		<f:facet name="complete">
+			<h:outputText value="Status: Completed" />
+		</f:facet>
+	</p:ajaxStatus>
+	<h:form id="form">
+		<p:growl id="messages" showDetail="false" />
+
+		<h3>Programmatic Menu</h3>
+		<p:menu model="#{menuView.model}" />
+
+		<p:commandButton value="Save" action="#{menuView.save}"></p:commandButton>
+
+	</h:form>
+
+</h:body>
+</html>

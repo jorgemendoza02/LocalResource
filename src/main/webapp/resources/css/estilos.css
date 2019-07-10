@@ -1,0 +1,26 @@
+.ui-widget {
+	font-size: 82% !important;
+}
+
+.ui-widget-overlay {
+	display: none;
+}
+
+.ui-widget .ui-widget {
+	font-size: 100% !important;
+}
+
+.tablaSinCabecera table thead tr {
+	display: none;
+}
+
+.tablaSinCabecera .ui-widget-content {
+	border: 1px solid #a8a8a8;
+	background: #fff;
+	color: #4f4f4f;
+	height: 35px;
+}
+
+h1 {
+	text-shadow: 0 0 3px #FF0000;
+}
