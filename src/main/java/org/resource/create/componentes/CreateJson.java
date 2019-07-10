@@ -26,7 +26,6 @@ import org.resource.util.Zipper;
 public class CreateJson implements Serializable {
 
 	private static final long serialVersionUID = -9211488178485180971L;
-
 	private String url;
 	private String json;
 	private CreateJsonService jsonService = new CreateJsonService();
